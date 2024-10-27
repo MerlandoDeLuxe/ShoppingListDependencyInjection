@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ShoppingList</string>
+    <string name="add_new_shop_item_to_list">Добавление нового товара в список</string>
+    <string name="name">Название</string>
+    <string name="quantity">Количество</string>
+    <string name="save_button">Сохранить</string>
+    <string name="error_quantity">Количество не может быть пустым</string>
+    <string name="error_name">Название не может быть пустым</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="element_was_removed">Элемент был удален</string>
+    <string name="success">Успешно</string>
+    <string name="interface_is_not_init_in_module">В %1$s не реализован интерфейс</string>
+    <string name="edit_complete_successfully">Редактирование завершено</string>
+    <string name="error_quantity1">Количество не может быть ноль или отрицательным</string>
+    <string name="item_has_been_deleted">Элемент был удалён</string>
+</resources>
