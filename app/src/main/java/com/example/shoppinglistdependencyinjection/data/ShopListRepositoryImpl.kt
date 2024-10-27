@@ -12,7 +12,6 @@ import com.example.shoppinglisttest.domain.ShopItemListRepository
 import javax.inject.Inject
 
 class ShopListRepositoryImpl @Inject constructor(
-    val application: Application,
     val connectDb: ShopListItemDAO,
     val mapper: ShopItemMapper
 ) : ShopItemListRepository {

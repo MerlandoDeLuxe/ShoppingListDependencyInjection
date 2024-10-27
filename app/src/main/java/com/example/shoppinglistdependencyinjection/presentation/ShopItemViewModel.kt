@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shoppinglisttest.data.ShopListRepositoryImpl
 import com.example.shoppinglisttest.data.database.ShopListItemDAO
 import com.example.shoppinglisttest.domain.AddShopItemUseCase
 import com.example.shoppinglisttest.domain.EditShopItemUseCase

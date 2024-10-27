@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListen
 
     private val component by lazy {
         (application as ShopItemApp).component
-            .activityComponentFactory()
-            .create(-1,"123")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,6 +1,8 @@
 package com.example.shoppinglistdependencyinjection.di
 
 import android.app.Application
+import com.example.shoppinglisttest.presentation.MainActivity
+import com.example.shoppinglisttest.presentation.ShopItemFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -8,12 +10,14 @@ import dagger.Component
 @Component(
     modules = [
         DomainModule::class,
-        DataModule::class
+        DataModule::class,
+        ViewModelModule::class
     ]
 )
 interface ApplicationComponent {
 
-    fun activityComponentFactory(): ActivityComponent.Factory
+    fun inject(activity: MainActivity)
+    fun inject(fragment: ShopItemFragment)
 
     @Component.Factory
     interface Factory {

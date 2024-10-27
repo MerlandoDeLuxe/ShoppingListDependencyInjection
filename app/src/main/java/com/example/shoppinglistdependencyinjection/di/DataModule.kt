@@ -10,6 +10,7 @@ import dagger.Provides
 interface DataModule {
 
     companion object {
+
         @Provides
         @ApplicationScope
         fun shopListItemDAO(
@@ -18,5 +19,4 @@ interface DataModule {
             return ShopListItemDatabase.getInstance(application).shopListItemDAO
         }
     }
-
 }

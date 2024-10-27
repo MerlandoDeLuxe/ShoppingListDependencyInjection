@@ -48,8 +48,6 @@ class ShopItemFragment : Fragment() {
 
     private val component by lazy {
         (requireActivity().application as ShopItemApp).component
-            .activityComponentFactory()
-            .create(shopItemId, screenMode)
     }
 
     interface OnEditingFinishListener {
