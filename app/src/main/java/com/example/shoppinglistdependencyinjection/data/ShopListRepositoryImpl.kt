@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.shoppinglistdependencyinjection.data.mapper.ShopItemMapper
 import com.example.shoppinglisttest.data.database.ShopListItemDAO
+import com.example.shoppinglisttest.data.database.ShopListItemDatabase
 import com.example.shoppinglisttest.domain.ShopItem
 import com.example.shoppinglisttest.domain.ShopItemListRepository
 import javax.inject.Inject
@@ -27,6 +28,7 @@ class ShopListRepositoryImpl @Inject constructor(
     }
 
     override fun getListShopItemFromDatabase(): LiveData<List<ShopItem>> {
+
         return connectDb.getListShopItemFromDatabase()//Преобразование одной LiveData в другую
             .map { it -> it.map { mapper.mapShopItemDbModelToShopItem(it) } }
     }

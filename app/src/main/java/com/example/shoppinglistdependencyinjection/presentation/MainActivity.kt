@@ -1,6 +1,7 @@
 package com.example.shoppinglisttest.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglistdependencyinjection.R
 import com.example.shoppinglistdependencyinjection.presentation.ShopItemApp
 import com.example.shoppinglistdependencyinjection.presentation.ShopItemViewModelFactory
+import com.example.shoppinglisttest.data.database.ShopListItemDatabase
 import com.example.shoppinglisttest.domain.ShopItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
