@@ -1,5 +1,6 @@
 package com.example.shoppinglisttest.data.database
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
@@ -24,12 +25,24 @@ interface ShopListItemDAO {
     @Query("select * from shop_item")
     fun getListShopItemFromDatabase(): LiveData<List<ShopItemDbModel>>
 
-    @Query("select * from shop_item where id = :shopItemDbModel")
-    suspend fun getShopItemFromDatabase(shopItemDbModel: Int): ShopItemDbModel
+    @Query("select * from shop_item where id = :shopItemId")
+    suspend fun getShopItemFromDatabase(shopItemId: Int): ShopItemDbModel
 
     @Delete
     suspend fun removeShopItemFromDatabase(shopItemDbModel: ShopItemDbModel)
 
-    @Query("select * from shop_item where id =:shopItemDbModel")
-    fun monitoringShopItemExist(shopItemDbModel: Int): LiveData<ShopItemDbModel>
+    @Query("select * from shop_item where id =:shopItemId")
+    fun monitoringShopItemExist(shopItemId: Int): LiveData<ShopItemDbModel>
+
+    @Query("select * from shop_item")
+    fun getListShopCursorFromDatabase(): Cursor
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addShopItemSyncToDatabase(shopItemDbModel: ShopItemDbModel)
+
+    @Query("delete from shop_item where id = :shopItemId")
+    fun removeShopItemFromDatabaseByIdSync(shopItemId: Int): Int
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun editShopItemInDatabaseSync(shopItemDbModel: ShopItemDbModel): Int
 }

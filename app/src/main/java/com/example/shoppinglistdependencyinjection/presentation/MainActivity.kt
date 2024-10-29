@@ -1,5 +1,6 @@
 package com.example.shoppinglisttest.presentation
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -14,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglistdependencyinjection.R
 import com.example.shoppinglistdependencyinjection.presentation.ShopItemApp
 import com.example.shoppinglistdependencyinjection.presentation.ShopItemViewModelFactory
-import com.example.shoppinglisttest.data.database.ShopListItemDatabase
 import com.example.shoppinglisttest.domain.ShopItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
     private val TAG = "MainActivity"
@@ -55,6 +56,31 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListen
         setupSwipeClickListener()
         runFragmentOnMainScreen()
 
+        thread {
+            val cursor = contentResolver.query(
+                Uri.parse("content://com.example.shoppinglisttest/shop_item"),
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+            while (cursor?.moveToNext() == true) {
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                val quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"))
+                val enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled")) > 0
+
+                val shopItem = ShopItem(
+                    id = id,
+                    name = name,
+                    quantity = quantity,
+                    enabled = enabled
+                )
+                Log.d(TAG, "onCreate: shopItem = $shopItem")
+            }
+            cursor?.close()
+        }
     }
 
     private fun runFragmentOnMainScreen(shopItemId: Int = ShopItem.UNKNOWN_ID) {
@@ -129,7 +155,14 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListen
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val shopItem = adapter.currentList.get(viewHolder.adapterPosition)
-                viewModel.removeShopItemFromDatabase(shopItem)
+//                viewModel.removeShopItemFromDatabase(shopItem)
+                thread {
+                    contentResolver.delete(
+                        Uri.parse("content://com.example.shoppinglisttest/shop_item"),
+                        null,//Where не передаем, потому что в библиотеке Room уже есть where в интерфейсе DAO
+                        arrayOf(shopItem.id.toString())//должен быть массив строк
+                    )
+                }
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)

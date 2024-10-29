@@ -1,6 +1,8 @@
 package com.example.shoppinglisttest.presentation
 
+import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +20,7 @@ import com.example.shoppinglisttest.domain.ShopItem
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class ShopItemFragment : Fragment() {
     private val TAG = "ShopItemFragment"
@@ -120,10 +123,22 @@ class ShopItemFragment : Fragment() {
             editTextQuantity.setText(it.quantity.toString())
         }
         buttonSave.setOnClickListener {
-            viewModel.editShopItemInDatabase(
-                editTextName.text.toString(),
-                editTextQuantity.text.toString()
-            )
+//            viewModel.editShopItemInDatabase(
+//                editTextName.text.toString(),
+//                editTextQuantity.text.toString()
+//            )
+            thread {
+                context?.contentResolver?.update(
+                    Uri.parse("content://com.example.shoppinglisttest/shop_item"),
+                    ContentValues().apply {
+                        put("id", shopItemId)
+                        put("name", editTextName.text.toString())
+                        put("quantity", editTextQuantity.text.toString().toInt())
+                        put("enabled", true)
+                    },
+                    null
+                )
+            }
         }
 
         //Костыль!! Потому что исопльзуется ShopItemDbModel из БД, а не ShopItem
@@ -136,7 +151,19 @@ class ShopItemFragment : Fragment() {
 
     private fun launchScreenAddMode() {
         buttonSave.setOnClickListener {
-            viewModel.addNewShopItem(editTextName.text.toString(), editTextQuantity.text.toString())
+//            viewModel.addNewShopItem(editTextName.text.toString(), editTextQuantity.text.toString())
+            thread {
+                context?.contentResolver?.insert(
+                    Uri.parse("content://com.example.shoppinglisttest/shop_item"),
+                    ContentValues().apply {
+                        put("id", 0)
+                        put("name", editTextName.text.toString())
+                        put("quantity", editTextQuantity.text.toString().toInt())
+                        put("enabled", true)
+                    }
+                )
+            }
+
         }
     }
 
